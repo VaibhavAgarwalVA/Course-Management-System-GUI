@@ -6,11 +6,13 @@ import javax.swing.JPanel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.io.*;
 import java.util.*;
 
-public class GUI_Project1 extends JFrame {
+public class GUI_Project1 extends JFrame implements java.io.Serializable {
 
 	public JFrame frame;
 	public JButton btnNewButton;
@@ -27,7 +29,7 @@ public class GUI_Project1 extends JFrame {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		btnNewButton = new JButton("Create / Display Course");
@@ -63,6 +65,44 @@ public class GUI_Project1 extends JFrame {
 		JButton btnNewButton_2 = new JButton("EXIT !");
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				try {
+					FileOutputStream fileOut = new FileOutputStream("data.ser");
+					ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(fileOut));
+					out.writeObject(Run.vec);
+					out.close();
+					fileOut.close();
+				}
+				catch(Exception ex){
+					ex.printStackTrace();
+				}
+				try{
+					FileInputStream fileIn = new FileInputStream("data.ser");
+					ObjectInputStream in = null; 
+		 	  	
+		 	  	 
+					File file = new File("data.ser");
+					boolean isEmpty = file.length()<10;
+					if(!isEmpty){
+						in = new ObjectInputStream(new BufferedInputStream(fileIn));
+						Run.vec = (Vector<Course>) in.readObject();
+					}
+			   
+					if(in!=null){
+						in.close();
+					}
+					fileIn.close();
+				}
+				catch(FileNotFoundException ex){
+					JOptionPane.showMessageDialog(null, "Error in loading file");
+				}
+				catch(IOException ex){
+					JOptionPane.showMessageDialog(null, "Error in loading file");
+				}
+				catch(ClassNotFoundException ex){
+					JOptionPane.showMessageDialog(null, "Error in loading file");
+				}
+				
 				frame.setVisible(false);
 			}
 		});
