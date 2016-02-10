@@ -22,7 +22,27 @@ public class displayCourse_GUI {
 	public displayCourse_GUI(final int ind) {
 		initialize(ind);
 	}
-
+	
+	public int check(Date dd){
+		int f=0;
+	    Calendar cal = Calendar.getInstance();
+	    cal.setTime(dd);  //date of course date
+	    int year = cal.get(Calendar.YEAR);   //year of course
+	    
+	    Calendar caa = Calendar.getInstance();
+	    int today = caa.get(Calendar.YEAR);
+	    
+		if(today >= year && (today - year) < 5){
+			f=1;
+		}
+		if(f==1){     //date is fine
+			return 1;
+		}
+		else{
+			return 0;
+		}
+	}
+	
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -68,7 +88,7 @@ public class displayCourse_GUI {
 				obj.frame.setVisible(true);
 			}
 		});
-		btnFacultyList.setBounds(51, 190, 142, 25);
+		btnFacultyList.setBounds(51, 214, 142, 25);
 		frame.getContentPane().add(btnFacultyList);
 		
 		JButton btnParticipantList = new JButton("Participant List");
@@ -78,7 +98,7 @@ public class displayCourse_GUI {
 				obj.frame.setVisible(true);
 			}
 		});
-		btnParticipantList.setBounds(261, 190, 142, 25);
+		btnParticipantList.setBounds(259, 214, 142, 25);
 		frame.getContentPane().add(btnParticipantList);
 		
 		JLabel lblcn = new JLabel("//CN");
@@ -103,9 +123,10 @@ public class displayCourse_GUI {
 		
 		JLabel lblsd = new JLabel("//SD");
 		lblsd.setBackground(Color.LIGHT_GRAY);
-		lblsd.setBounds(187, 124, 190, 15);
+		lblsd.setBounds(187, 124, 234, 15);
 		frame.getContentPane().add(lblsd);
-		lblsd.setText(Run.vec.elementAt(ind).get_start_date());
+		String str = Run.vec.elementAt(ind).get_start_date().toString();
+		lblsd.setText(str);
 		
 		JButton btnNewButton = new JButton("Course Coordinator");
 		btnNewButton.addActionListener(new ActionListener() {
@@ -114,8 +135,26 @@ public class displayCourse_GUI {
 				obj.frame.setVisible(true);
 			}
 		});
-		btnNewButton.setBounds(140, 153, 173, 25);
+		btnNewButton.setBounds(141, 174, 173, 25);
 		frame.getContentPane().add(btnNewButton);
+		
+		int cases= check(Run.vec.elementAt(ind).get_start_date());
+		
+		JLabel lblValid = new JLabel(" ");
+		lblValid.setForeground(Color.GREEN);
+		lblValid.setBounds(351, 86, 70, 15);
+		frame.getContentPane().add(lblValid);
+		if(cases == 1){
+			lblValid.setText("VALID");
+		}
+		
+		JLabel lblInvalid = new JLabel(" ");
+		lblInvalid.setForeground(Color.RED);
+		lblInvalid.setBounds(351, 106, 70, 15);
+		frame.getContentPane().add(lblInvalid);
+		if(cases == 0){
+			lblInvalid.setText("INVALID");
+		}
 		
 	}
 }

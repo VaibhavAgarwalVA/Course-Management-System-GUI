@@ -3,12 +3,14 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 import javax.swing.UIManager;
 import java.io.*;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class createCourse_GUI {
@@ -145,8 +147,17 @@ public class createCourse_GUI {
 					}
 					Run.vec.elementAt(n-1).set_course_fee(fees_);
 				
-					st= textField_2.getText();
-					Run.vec.elementAt(n-1).set_start_date(st);
+					Date dt= new Date();
+					try{
+						st= textField_2.getText();
+						SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+						df.setLenient(false);
+						dt = (df).parse(st);
+					}
+					catch(Exception e){
+						JOptionPane.showMessageDialog(null, "Incorrect date format");
+					}
+					Run.vec.elementAt(n-1).set_start_date(dt);
 				
 					st = textField_3.getText();
 					int dd = 0;
@@ -174,8 +185,17 @@ public class createCourse_GUI {
 					}
 					Run.vec.elementAt(s).set_course_fee(fees_);
 				
-					st= textField_2.getText();
-					Run.vec.elementAt(s).set_start_date(st);
+					Date dt= new Date();
+					try{
+						st= textField_2.getText();
+						SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+						df.setLenient(false);
+						dt = (df).parse(st);
+					}
+					catch(Exception e){
+						JOptionPane.showMessageDialog(null, "Incorrect date format");
+					}
+					Run.vec.elementAt(s).set_start_date(dt);
 				
 					st = textField_3.getText();
 					int dd = 0;
